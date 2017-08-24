@@ -1,6 +1,10 @@
 FROM node:8.4-alpine
 MAINTAINER James Gilliland <neclimdul@gmail.com>
 
+EXPOSE 3001 3050
+WORKDIR /usr/src/app
+CMD /usr/local/bin/pattern-lab-runner.sh
+
 RUN apk -U update && apk add git python make g++ \
   && apk add curl php7 php7-json php7-phar php7-iconv php7-zlib php7-openssl php7-mbstring php7-ctype php7-tokenizer \
   && ln -sf /usr/bin/php7 /usr/bin/php \
@@ -24,3 +28,5 @@ RUN curl -s -f -L -o /tmp/installer.php https://raw.githubusercontent.com/compos
  && php /tmp/installer.php --no-ansi --install-dir=/usr/bin --filename=composer --version=${COMPOSER_VERSION} \
  && composer --ansi --version --no-interaction \
  && rm -rf /tmp/* /tmp/.htaccess
+
+COPY pattern-lab-runner.sh /usr/local/bin/pattern-lab-runner.sh
